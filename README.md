@@ -15,7 +15,10 @@
   To install this project you must first clone the repository and then run the `npm i` or `npm install` command in the root of the project's terminal. Once that is complete you can run `npm start` to test locally or visit the live URL that this was deployed to.
 
   ## Usage
-  N/A
+  # Mobile View
+  ![mobile-view](./assets/screenshots/mobile-view.PNG) </br>
+  # Desktop View
+  ![desktop-view](./assets/screenshots/screenshot.PNG)
 
   ## Credits
   Diego Rivera
