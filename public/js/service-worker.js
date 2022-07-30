@@ -27,4 +27,22 @@ self.addEventListener('install', function (e) {
             return cache.andAll(FILES_TO_CACHE)
         })
     )
-})
+});
+
+self.addEventListener('acivate', function (e) {
+    e.waitUntil(
+        caches.keys().then(function (keylist) {
+            let cacheKeeplist = keylist.filter(function (key) {
+                return key.indexOf(APP_PREFIX);
+            });
+            cacheKeeplist.push(CACHE_NAME);
+
+            return Promise.all(keylist.map(function (key, i) {
+                if (cacheKeeplist.indexOf(key) === -1) {
+                    console.log('deleting cache : ' + keylist[i] );
+                    return caches.delete(keylist[i]);
+                }
+            }));
+        })
+    )
+});
