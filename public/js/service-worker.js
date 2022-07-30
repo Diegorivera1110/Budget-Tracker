@@ -29,6 +29,7 @@ self.addEventListener('install', function (e) {
     )
 });
 
+// activate service worker 
 self.addEventListener('acivate', function (e) {
     e.waitUntil(
         caches.keys().then(function (keylist) {
@@ -37,6 +38,7 @@ self.addEventListener('acivate', function (e) {
             });
             cacheKeeplist.push(CACHE_NAME);
 
+            // returns a promise that resolves when all older versions of previous cache have been deleted
             return Promise.all(keylist.map(function (key, i) {
                 if (cacheKeeplist.indexOf(key) === -1) {
                     console.log('deleting cache : ' + keylist[i] );
@@ -46,3 +48,19 @@ self.addEventListener('acivate', function (e) {
         })
     )
 });
+
+// retrieves data from the cache
+self.addEventListener('fetch', function (e) {
+    console.log('fetch request : ' + e.request.url)
+    e.respondWith(
+        caches.match(e.request).then(function (request) {
+            if (request) {
+                console.log('responding with cache : ' + e.request.url)
+                return request
+            } else {
+                console.log('file is not cached, fetching : ' + e.request.url)
+                return fetch(e.request)
+            }
+        })
+    )
+})
